@@ -18,20 +18,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.pmu.android.api.obj.impl.Location;
 import com.pmu.android.api.transport.impl.TransportContants;
 
-public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements
+public class PlacesAutoCompleteAdapter extends ArrayAdapter<Location> implements
 		Filterable {
 
-	private ArrayList<String> resultList;
+	private ArrayList<Location> resultList;
 	private static final String LOG_TAG = "ExampleApp";
 
 	private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
 	private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
 	private static final String OUT_JSON = "/json";
 
-	private ArrayList<String> autocomplete(String input) {
-		ArrayList<String> resultList = null;
+	private ArrayList<Location> autocomplete(String input) {
+		ArrayList<Location> resultList = null;
 
 		HttpURLConnection conn = null;
 		StringBuilder jsonResults = new StringBuilder();
@@ -70,10 +71,13 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements
 			JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
 
 			// Extract the Place descriptions from the results
-			resultList = new ArrayList<String>(predsJsonArray.length());
+			resultList = new ArrayList<Location>(predsJsonArray.length());
 			for (int i = 0; i < predsJsonArray.length(); i++) {
-				resultList.add(predsJsonArray.getJSONObject(i).getString(
-						"description"));
+				Location l = new Location(predsJsonArray.getJSONObject(i)
+						.getString("description"));
+				l.setRequestID(predsJsonArray.getJSONObject(i).getString(
+						"reference"));
+				resultList.add(l);
 			}
 		} catch (JSONException e) {
 			Log.e(LOG_TAG, "Cannot process JSON results", e);
@@ -92,7 +96,7 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements
 	}
 
 	@Override
-	public String getItem(int index) {
+	public Location getItem(int index) {
 		return resultList.get(index);
 	}
 

@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import android.content.Context;
 
 import com.pmu.android.api.ApiFactory;
+import com.pmu.android.api.obj.impl.Location;
 import com.pmu.android.api.transport.IAsyncTransportCommand;
 import com.pmu.android.api.transport.ITransportCallBack;
 
@@ -91,6 +92,16 @@ public class AsyncTransportCalls {
 				TransportContants.GCM_KEY));
 	}
 
+	public static void placeDetails(String referenceId, Location location,
+			ITransportCallBack callback) {
+		try {
+			RunCommand(new PlaceDetailCommand(referenceId, location, callback));
+		} catch (Exception e) {
+			e.printStackTrace();
+			callback.onCallback(new PlaceDetailResponse(null, referenceId));
+		}
+	}
+
 	public static void createUser(String username, String pin,
 			ITransportCallBack callback) {
 		LinkedHashMap<String, String> hmp = new LinkedHashMap<String, String>();
@@ -134,7 +145,7 @@ public class AsyncTransportCalls {
 		hmp.put("pin", pin);
 		CallMethod(GET_LOCATIONS, hmp, callback);
 	}
-	
+
 	public static void setRequest(String deviceId, String info,
 			ITransportCallBack callback) {
 		LinkedHashMap<String, String> hmp = new LinkedHashMap<String, String>();

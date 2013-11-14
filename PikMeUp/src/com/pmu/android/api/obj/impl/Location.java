@@ -4,12 +4,18 @@ import org.json.JSONObject;
 
 import com.pmu.android.api.storage.ISerialize;
 
-public class Location implements ISerialize {
+public class Location extends BaseAsyncObject implements ISerialize {
 
+	public static final String REQUEST_ID = "requestID";
+	public static final String TYPE = "type";
+	public static final String ALIAS = "alias";
+	public static final String LATITUDE = "latitude";
+	public static final String LONGITUDE = "longitude";
 	private String longitude;
 	private String latitude;
 	private String alias;
 	private String type;
+	private String requestID;
 
 	public Location(String newAlias) {
 		alias = newAlias;
@@ -32,6 +38,7 @@ public class Location implements ISerialize {
 
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+		onUpdate(LONGITUDE, longitude);
 	}
 
 	public String getLatitude() {
@@ -40,6 +47,7 @@ public class Location implements ISerialize {
 
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
+		onUpdate(LATITUDE, latitude);
 	}
 
 	public String getAlias() {
@@ -48,6 +56,7 @@ public class Location implements ISerialize {
 
 	public void setAlias(String alias) {
 		this.alias = alias;
+		onUpdate(ALIAS, alias);
 	}
 
 	public String getType() {
@@ -56,12 +65,21 @@ public class Location implements ISerialize {
 
 	public void setType(String type) {
 		this.type = type;
+		onUpdate(TYPE, type);
+	}
+
+	public String getRequestID() {
+		return requestID;
+	}
+
+	public void setRequestID(String requestID) {
+		this.requestID = requestID;
+		onUpdate(REQUEST_ID, requestID);
 	}
 
 	@Override
 	public String getJSONString() {
-		// TODO Auto-generated method stub
-		return null;
+		return getJSONObject().toString();
 	}
 
 	@Override
@@ -71,11 +89,16 @@ public class Location implements ISerialize {
 		try {
 			request.put("lat", latitude);
 			request.put("long", longitude);
-			request.put("alias", alias);
+			request.put(ALIAS, alias);
 			result.put(type, request);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return alias;
 	}
 }

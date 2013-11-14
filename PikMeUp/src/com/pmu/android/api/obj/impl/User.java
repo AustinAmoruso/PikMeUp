@@ -8,6 +8,16 @@ import com.pmu.android.api.storage.impl.StorageApi;
 
 public class User {
 	Context context;
+	Request currentRequest;
+	
+
+	public Request getCurrentRequest() {
+		return currentRequest;
+	}
+
+	public void setCurrentRequest(Request currentRequest) {
+		this.currentRequest = currentRequest;
+	}
 
 	public User(Context newContext) {
 		context = newContext;

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,11 +20,16 @@ import com.pmu.android.api.obj.impl.Request;
 import com.pmu.android.api.transport.impl.AddRouteAction;
 import com.pmu.android.ui.impl.DatePickerFragment;
 import com.pmu.android.ui.impl.FlexPickerFragment;
+import com.pmu.android.ui.impl.LocationUI;
 import com.pmu.android.ui.impl.MapPickerFragment;
 import com.pmu.android.ui.impl.TimePickerFragment;
 
 public class RouteNew extends Fragment implements OnClickListener,
 		IActionCallback {
+
+	private Request request;
+	private LocationUI startUI;
+	private LocationUI endUI;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,10 +41,17 @@ public class RouteNew extends Fragment implements OnClickListener,
 	@Override
 	public void onResume() {
 		super.onResume();
-		init();
+		initObjects();
+		initViews();
 	}
 
-	public void init() {
+	private void initObjects() {
+		request = new Request();
+		request.setStart(new Location(""));
+		request.setEnd(new Location(""));
+	}
+
+	public void initViews() {
 		ImageView ivStart = (ImageView) getView().findViewById(R.id.imgStart);
 		ivStart.setOnClickListener(this);
 		ImageView ivEnd = (ImageView) getView().findViewById(R.id.imgEnd);
@@ -51,16 +64,22 @@ public class RouteNew extends Fragment implements OnClickListener,
 		ivFlex.setOnClickListener(this);
 		Button btnRoute = (Button) getView().findViewById(R.id.btnRoute);
 		btnRoute.setOnClickListener(this);
+		startUI = new LocationUI((AutoCompleteTextView) getView().findViewById(
+				R.id.edtStart), request.getStart());
+		endUI = new LocationUI((AutoCompleteTextView) getView().findViewById(
+				R.id.edtEnd), request.getEnd());
 	}
 
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.imgStart) {
-			DialogFragment newFragment = new MapPickerFragment();
-			newFragment.show(getFragmentManager(), "mapPicker");
+			MapPickerFragment mpf = new MapPickerFragment();
+			mpf.setLocation(startUI.getLocation());
+			mpf.show(getFragmentManager(), "mapPicker");
 		} else if (v.getId() == R.id.imgEnd) {
-			DialogFragment newFragment = new MapPickerFragment();
-			newFragment.show(getFragmentManager(), "mapPicker");
+			MapPickerFragment mpf = new MapPickerFragment();
+			mpf.setLocation(endUI.getLocation());
+			mpf.show(getFragmentManager(), "mapPicker");
 		} else if (v.getId() == R.id.imgTime) {
 			DialogFragment newFragment = new TimePickerFragment();
 			newFragment.show(getFragmentManager(), "timePicker");

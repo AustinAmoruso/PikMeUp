@@ -6,27 +6,17 @@ import java.net.URL;
 
 import org.json.JSONObject;
 
-import com.pmu.android.api.transport.ITransportCommand;
+import com.pmu.android.api.transport.ITransportCallBack;
 import com.pmu.android.api.transport.ITransportResponse;
 
-public class JSONCommand implements ITransportCommand {
+public class JSONCommand extends AsyncBaseCommand {
 
 	private String url;
 
-	public String getUrl() {
-		return url;
-	}
-
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-
-	JSONCommand(String newUrl) {
+	JSONCommand(String newUrl, ITransportCallBack callback) {
+		super(callback);
 		url = newUrl;
 	}
-	
 
 	@Override
 	public ITransportResponse Execute() {

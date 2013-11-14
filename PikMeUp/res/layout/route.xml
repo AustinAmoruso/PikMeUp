@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/edtStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,9 +41,7 @@
                 android:layout_weight="10"
                 android:ems="10"
                 android:inputType="textPostalAddress" >
-
-                <requestFocus />
-            </EditText>
+            </AutoCompleteTextView>
 
             <ImageView
                 android:id="@+id/imgStart"
@@ -66,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/edtEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/edtDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/edtTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,7 +132,7 @@
                 android:layout_weight="10"
                 android:ems="10"
                 android:inputType="textPostalAddress" >
-            </EditText>
+            </AutoCompleteTextView>
 
             <ImageView
                 android:id="@+id/imgTime"
@@ -157,7 +155,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/edtFlex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

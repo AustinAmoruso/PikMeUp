@@ -4,8 +4,14 @@ import org.json.JSONObject;
 
 import com.pmu.android.api.storage.ISerialize;
 
-public class Request implements ISerialize {
+public class Request extends BaseAsyncObject implements ISerialize {
 
+	public static final String REQUEST_ID = "request_ID";
+	public static final String TYPE = "type";
+	public static final String FLEX = "flex";
+	public static final String TIME = "time";
+	public static final String END = "end";
+	public static final String START = "start";
 	private Location start;
 	private Location end;
 	private String time;
@@ -19,6 +25,8 @@ public class Request implements ISerialize {
 
 	public void setStart(Location start) {
 		this.start = start;
+		start.addOnActionCallback(this);
+		onUpdate(START, start);
 	}
 
 	public Location getEnd() {
@@ -27,6 +35,8 @@ public class Request implements ISerialize {
 
 	public void setEnd(Location end) {
 		this.end = end;
+		end.addOnActionCallback(this);
+		onUpdate(END, end);
 	}
 
 	public String getTime() {
@@ -35,6 +45,7 @@ public class Request implements ISerialize {
 
 	public void setTime(String time) {
 		this.time = time;
+		onUpdate(TIME, time);
 	}
 
 	public String getFlex() {
@@ -43,6 +54,7 @@ public class Request implements ISerialize {
 
 	public void setFlex(String flex) {
 		this.flex = flex;
+		onUpdate(FLEX, flex);
 	}
 
 	public String getType() {
@@ -51,6 +63,7 @@ public class Request implements ISerialize {
 
 	public void setType(String type) {
 		this.type = type;
+		onUpdate(TYPE, type);
 	}
 
 	public String getRequest_ID() {
@@ -59,6 +72,7 @@ public class Request implements ISerialize {
 
 	public void setRequest_ID(String request_ID) {
 		this.request_ID = request_ID;
+		onUpdate(REQUEST_ID, request_ID);
 	}
 
 	@Override
@@ -71,10 +85,10 @@ public class Request implements ISerialize {
 		JSONObject result = new JSONObject();
 		try {
 			JSONObject request = new JSONObject();
-			request.put("start", start.getJSONObject());
-			request.put("end", end.getJSONObject());
-			request.put("time", time);
-			request.put("flex", flex);
+			request.put(START, start.getJSONObject());
+			request.put(END, end.getJSONObject());
+			request.put(TIME, time);
+			request.put(FLEX, flex);
 			result.put(type, request);
 		} catch (Exception e) {
 			e.printStackTrace();
