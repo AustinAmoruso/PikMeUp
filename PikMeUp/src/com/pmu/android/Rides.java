@@ -34,8 +34,8 @@ public class Rides extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.add_route:
-			Drawer d = (Drawer) getActivity();
-			d.SwapFragmentByClass(RouteNew.class.getName());
+			Main m = (Main) getActivity();
+			m.SwapFragmentByClass(RouteNew.class.getName());
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

@@ -1,5 +1,7 @@
 package com.pmu.android.ui.impl;
 
+import java.util.HashMap;
+
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pmu.android.R;
+import com.pmu.android.api.ApiFactory;
 import com.pmu.android.api.obj.impl.Location;
 import com.pmu.android.api.transport.ITransportCallBack;
 import com.pmu.android.api.transport.ITransportResponse;
@@ -51,8 +54,11 @@ public class MapPickerFragment extends DialogFragment implements
 		m.onCreate(savedInstanceState);
 		AutoCompleteTextView autoCompView = (AutoCompleteTextView) view
 				.findViewById(R.id.edtAddress);
+		HashMap<String, String> loc = ApiFactory.getAdapterFactory()
+				.getLocation().query(getActivity());
 		autoCompView.setAdapter(new PlacesAutoCompleteAdapter(getActivity(),
-				R.layout.list_item));
+				R.layout.list_item, loc.get(Location.LAT), loc
+						.get(Location.LONG), "500"));
 		autoCompView.setOnItemClickListener(this);
 		Button btnAdd = (Button) view.findViewById(R.id.btnAdd);
 		btnAdd.setOnClickListener(this);
@@ -69,6 +75,23 @@ public class MapPickerFragment extends DialogFragment implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		setMapToCurrentCords();
+	}
+
+	private void setMapToCurrentCords() {
+		HashMap<String, String> loc = ApiFactory.getAdapterFactory()
+				.getLocation().query(getActivity());
+		double lat = Double.valueOf(loc.get(Location.LAT));
+		double lng = Double.valueOf(loc.get(Location.LONG));
+		setMapCordinates(lat, lng, 13);
+	}
+
+	private void setMapCordinates(double lat, double lng, int zoom) {
+		LatLng loc = new LatLng(lat, lng);
+		GoogleMap gm = m.getMap();
+		gm.clear();
+		gm.setMyLocationEnabled(true);
+		gm.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom));
 	}
 
 	@Override
@@ -92,8 +115,9 @@ public class MapPickerFragment extends DialogFragment implements
 	public void onItemClick(AdapterView<?> adapterView, View view,
 			int position, long id) {
 		Location location = (Location) adapterView.getItemAtPosition(position);
-		AsyncTransportCalls.placeDetails(location.getRequestID(), location,
-				this);
+		l.setAlias(location.getAlias());
+		l.setRequestID(location.getRequestID());
+		AsyncTransportCalls.placeDetails(l.getRequestID(), l, this);
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
@@ -103,12 +127,6 @@ public class MapPickerFragment extends DialogFragment implements
 	public void onCallback(ITransportResponse response) {
 		if (response.getResponse() != null) {
 			if (response.getResponse() instanceof Location) {
-				Location temp = (Location) response.getResponse();
-				l.setAlias(temp.getAlias());
-				l.setLatitude(temp.getLatitude());
-				l.setLongitude(temp.getLongitude());
-				l.setRequestID(temp.getRequestID());
-				l.setType(temp.getType());
 				double lat = Double.valueOf(l.getLatitude());
 				double lng = Double.valueOf(l.getLongitude());
 				LatLng loc = new LatLng(lat, lng);
@@ -118,7 +136,6 @@ public class MapPickerFragment extends DialogFragment implements
 				gm.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 13));
 				gm.addMarker(new MarkerOptions().title(l.getAlias()).position(
 						loc));
-
 			}
 		}
 	}

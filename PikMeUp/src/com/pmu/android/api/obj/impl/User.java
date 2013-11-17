@@ -42,5 +42,15 @@ public class User {
 		IStorage pref = ApiFactory.getStrorageFactory(context).getPreferences();
 		pref.setValue(StorageApi.PIN, newPin);
 	}
+	
+	public String getGCMID() {
+		IStorage pref = ApiFactory.getStrorageFactory(context).getPreferences();
+		return (String) pref.getValue(StorageApi.GCMID);
+	}
+
+	public void setGCMID(String newGCMID) {
+		IStorage pref = ApiFactory.getStrorageFactory(context).getPreferences();
+		pref.setValue(StorageApi.GCMID, newGCMID);
+	}
 
 }

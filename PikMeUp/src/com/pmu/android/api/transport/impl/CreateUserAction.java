@@ -13,8 +13,8 @@ import com.pmu.android.util.SoapParser;
 
 public class CreateUserAction extends BaseAction implements ITransportCallBack {
 
-	public static final String CREATE_USER_ACTION_FAILURE = "CreateUserAction_Failure";
-	public static final String CREATE_USER_ACTION_SUCCESS = "CreateUserAction_Success";
+	public static final String FAILURE = "CreateUserAction_Failure";
+	public static final String SUCCESS = "CreateUserAction_Success";
 	private String username;
 	private String password;
 	private Context context;
@@ -60,9 +60,9 @@ public class CreateUserAction extends BaseAction implements ITransportCallBack {
 					ApiFactory.getObjectFactory(context).getUser().setID(id);
 					ApiFactory.getObjectFactory(context).getUser()
 							.setPin(password);
-					Notify(CREATE_USER_ACTION_SUCCESS);
+					Notify(SUCCESS);
 				} else {
-					Notify(CREATE_USER_ACTION_FAILURE);
+					Notify(FAILURE);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.pmu.android;
 
 import java.io.File;
+import java.util.HashMap;
 
 import org.ksoap2.serialization.SoapObject;
 
@@ -13,11 +14,21 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.amazonaws.services.s3.transfer.model.UploadResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.LatLng;
+import com.pmu.android.api.ApiFactory;
+import com.pmu.android.api.obj.impl.Location;
 import com.pmu.android.api.transport.ITransportCallBack;
 import com.pmu.android.api.transport.ITransportResponse;
 import com.pmu.android.api.transport.impl.AsyncTransportCalls;
@@ -30,6 +41,12 @@ public class Map extends Fragment implements ITransportCallBack {
 	MapView m;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.map, container, false);
@@ -39,9 +56,50 @@ public class Map extends Fragment implements ITransportCallBack {
 	}
 
 	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.drives, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.add_route:
+			Main m = (Main) getActivity();
+			m.SwapFragmentByClass(RouteNew.class.getName());
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		m.onResume();
+		try {
+			MapsInitializer.initialize(getActivity());
+		} catch (GooglePlayServicesNotAvailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setMapToCurrentCords();
+	}
+	
+	private void setMapToCurrentCords(){
+		HashMap<String, String> loc = ApiFactory.getAdapterFactory()
+				.getLocation().query(getActivity());
+		double lat = Double.valueOf(loc.get(Location.LAT));
+		double lng = Double.valueOf(loc.get(Location.LONG));
+		setMapCordinates(lat, lng, 13);
+	}
+
+	private void setMapCordinates(double lat, double lng, int zoom) {
+		LatLng loc = new LatLng(lat, lng);
+		GoogleMap gm = m.getMap();
+		gm.clear();
+		gm.setMyLocationEnabled(true);
+		gm.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom));
 	}
 
 	@Override

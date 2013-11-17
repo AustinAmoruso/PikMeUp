@@ -1,6 +1,7 @@
 package com.pmu.android;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.pmu.android.api.transport.impl.CreateUserAction;
 
 public class Create extends Fragment implements OnClickListener,
 		IActionCallback {
+
+	ProgressDialog pd;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +39,8 @@ public class Create extends Fragment implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
+		pd = ProgressDialog.show(getActivity(), "Registering",
+				"Plase wait as the device registers with the server.");
 		String username = ((EditText) getView().findViewById(R.id.edtUsername))
 				.getText().toString();
 		String password = ((EditText) getView().findViewById(R.id.edtPassword))
@@ -49,11 +54,11 @@ public class Create extends Fragment implements OnClickListener,
 	public void onComplete(Object result) {
 		if (result instanceof String) {
 			String val = (String) result;
-			if (val.equalsIgnoreCase(CreateUserAction.CREATE_USER_ACTION_SUCCESS)) {
-				Drawer d = (Drawer) getActivity();
-				d.SwapFragmentByClass(Map.class.getName());
-			} else if (val
-					.equalsIgnoreCase(CreateUserAction.CREATE_USER_ACTION_FAILURE)) {
+			if (val.equalsIgnoreCase(CreateUserAction.SUCCESS)) {
+				pd.dismiss();
+				Main m = (Main) getActivity();
+				m.SwapFragmentByClass(Map.class.getName());
+			} else if (val.equalsIgnoreCase(CreateUserAction.FAILURE)) {
 
 			}
 		}

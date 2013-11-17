@@ -9,14 +9,22 @@ import android.os.Bundle;
 import android.widget.NumberPicker;
 
 import com.pmu.android.R;
+import com.pmu.android.api.obj.impl.Request;
 
 public class FlexPickerFragment extends DialogFragment implements
 		OnClickListener {
 
+	private Request request;
+	private NumberPicker np;
+
+	public void setRequest(Request request) {
+		this.request = request;
+	}
+
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		// TODO: Make this more flexible
-		NumberPicker np = new NumberPicker(getActivity());
+		np = new NumberPicker(getActivity());
 		np.setMaxValue(1440);
 		np.setMinValue(0);
 		np.setValue(5);
@@ -28,7 +36,7 @@ public class FlexPickerFragment extends DialogFragment implements
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-
+		request.setFlex(String.valueOf(np.getValue()));
 	}
 
 }

@@ -30,6 +30,8 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<Location> implements
 	private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
 	private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
 	private static final String OUT_JSON = "/json";
+	private String lat, lng;
+	private String radius;
 
 	private ArrayList<Location> autocomplete(String input) {
 		ArrayList<Location> resultList = null;
@@ -41,7 +43,12 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<Location> implements
 					+ TYPE_AUTOCOMPLETE + OUT_JSON);
 			sb.append("?sensor=false&key=" + TransportContants.API_KEY);
 			sb.append("&components=country:us");
+
+			sb.append("&location=" + URLEncoder.encode(lat, "utf8") + ","
+					+ URLEncoder.encode(lng, "utf8"));
+			sb.append("&radius=" + URLEncoder.encode(radius, "utf8"));
 			sb.append("&input=" + URLEncoder.encode(input, "utf8"));
+			Log.e("**************", sb.toString());
 
 			URL url = new URL(sb.toString());
 			conn = (HttpURLConnection) url.openConnection();
@@ -86,8 +93,12 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<Location> implements
 		return resultList;
 	}
 
-	public PlacesAutoCompleteAdapter(Context context, int textViewResourceId) {
+	public PlacesAutoCompleteAdapter(Context context, int textViewResourceId,
+			String newLat, String newLng, String newRadius) {
 		super(context, textViewResourceId);
+		lat = newLat;
+		lng = newLng;
+		radius = newRadius;
 	}
 
 	@Override

@@ -17,6 +17,7 @@ public class StorageApi implements IStorage {
 	public static final String USERNAME = "user_name";
 	public static final String ID = "user_id";
 	public static final String PIN = "user_pin";
+	public static final String GCMID = "GCMID";
 	Context context;
 	SharedPreferences pref;
 

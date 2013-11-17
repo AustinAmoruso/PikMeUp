@@ -9,8 +9,16 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
+import com.pmu.android.api.obj.impl.Time;
+
 public class TimePickerFragment extends DialogFragment implements
 		TimePickerDialog.OnTimeSetListener {
+
+	private Time time;
+
+	public void setTime(Time time) {
+		this.time = time;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -25,6 +33,8 @@ public class TimePickerFragment extends DialogFragment implements
 	}
 
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		// Do something with the time chosen by the user
+		time.setHour(hourOfDay);
+		time.setMinute(minute);
+		time.setTimeDisplay();
 	}
 }

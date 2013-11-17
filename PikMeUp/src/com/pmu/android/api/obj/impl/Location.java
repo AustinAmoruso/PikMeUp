@@ -6,6 +6,8 @@ import com.pmu.android.api.storage.ISerialize;
 
 public class Location extends BaseAsyncObject implements ISerialize {
 
+	public static final String LAT = "lat";
+	public static final String LONG = "long";
 	public static final String REQUEST_ID = "requestID";
 	public static final String TYPE = "type";
 	public static final String ALIAS = "alias";
@@ -84,17 +86,15 @@ public class Location extends BaseAsyncObject implements ISerialize {
 
 	@Override
 	public JSONObject getJSONObject() {
-		JSONObject result = new JSONObject();
 		JSONObject request = new JSONObject();
 		try {
-			request.put("lat", latitude);
-			request.put("long", longitude);
+			request.put(LAT, latitude);
+			request.put(LONG, longitude);
 			request.put(ALIAS, alias);
-			result.put(type, request);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return result;
+		return request;
 	}
 
 	@Override

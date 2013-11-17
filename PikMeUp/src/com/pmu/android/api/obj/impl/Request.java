@@ -10,14 +10,14 @@ public class Request extends BaseAsyncObject implements ISerialize {
 	public static final String TYPE = "type";
 	public static final String FLEX = "flex";
 	public static final String TIME = "time";
-	public static final String END = "end";
+	public static final String STOP = "stop";
 	public static final String START = "start";
 	private Location start;
-	private Location end;
-	private String time;
+	private Location stop;
 	private String flex;
 	private String type;
 	private String request_ID;
+	private Time time;
 
 	public Location getStart() {
 		return start;
@@ -30,22 +30,13 @@ public class Request extends BaseAsyncObject implements ISerialize {
 	}
 
 	public Location getEnd() {
-		return end;
+		return stop;
 	}
 
 	public void setEnd(Location end) {
-		this.end = end;
+		this.stop = end;
 		end.addOnActionCallback(this);
-		onUpdate(END, end);
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-		onUpdate(TIME, time);
+		onUpdate(STOP, end);
 	}
 
 	public String getFlex() {
@@ -75,6 +66,17 @@ public class Request extends BaseAsyncObject implements ISerialize {
 		onUpdate(REQUEST_ID, request_ID);
 	}
 
+	public Time getTime() {
+		if (time == null) {
+			time = new Time();
+		}
+		return time;
+	}
+
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
 	@Override
 	public String getJSONString() {
 		return getJSONObject().toString();
@@ -86,8 +88,8 @@ public class Request extends BaseAsyncObject implements ISerialize {
 		try {
 			JSONObject request = new JSONObject();
 			request.put(START, start.getJSONObject());
-			request.put(END, end.getJSONObject());
-			request.put(TIME, time);
+			request.put(STOP, stop.getJSONObject());
+			request.put(TIME, time.getTime());
 			request.put(FLEX, flex);
 			result.put(type, request);
 		} catch (Exception e) {

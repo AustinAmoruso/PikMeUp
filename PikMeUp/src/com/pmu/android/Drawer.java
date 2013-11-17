@@ -12,6 +12,8 @@ import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.view.Gravity;
 import android.view.View;
 
+import com.pmu.android.api.ApiFactory;
+import com.pmu.android.api.obj.impl.User;
 import com.pmu.android.api.transport.impl.AsyncTransportCalls;
 
 public class Drawer extends Activity implements DrawerListener {
@@ -45,7 +47,12 @@ public class Drawer extends Activity implements DrawerListener {
 	}
 
 	private void loadCenter() {
-		SwapFragmentByClass(Create.class.getName());
+		User u = ApiFactory.getObjectFactory(this).getUser();
+		if (u.getID() != null && u.getID().length() > 0) {
+			SwapFragmentByClass(Map.class.getName());
+		} else {
+			SwapFragmentByClass(Create.class.getName());
+		}
 	}
 
 	private void loadTrips() {
