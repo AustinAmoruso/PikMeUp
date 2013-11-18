@@ -2,9 +2,10 @@ package com.pmu.android.api.obj.impl;
 
 import org.json.JSONObject;
 
+import com.pmu.android.api.obj.IFeedObject;
 import com.pmu.android.api.storage.ISerialize;
 
-public class Request extends BaseAsyncObject implements ISerialize {
+public class Request extends BaseAsyncObject implements ISerialize, IFeedObject {
 
 	public static final String REQUEST_ID = "request_ID";
 	public static final String TYPE = "type";
@@ -57,11 +58,11 @@ public class Request extends BaseAsyncObject implements ISerialize {
 		onUpdate(TYPE, type);
 	}
 
-	public String getRequest_ID() {
+	public String getID() {
 		return request_ID;
 	}
 
-	public void setRequest_ID(String request_ID) {
+	public void setID(String request_ID) {
 		this.request_ID = request_ID;
 		onUpdate(REQUEST_ID, request_ID);
 	}

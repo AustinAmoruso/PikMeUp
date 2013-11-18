@@ -42,9 +42,11 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<Location> implements
 			StringBuilder sb = new StringBuilder(PLACES_API_BASE
 					+ TYPE_AUTOCOMPLETE + OUT_JSON);
 			sb.append("?sensor=false&key=" + TransportContants.API_KEY);
-			sb.append("&components=country:us");
+			// sb.append("&" + URLEncoder.encode("components=country:us",
+			// "utf8"));
 
-			sb.append("&location=" + URLEncoder.encode(lat, "utf8") + ","
+			sb.append("&location=" + URLEncoder.encode(lat, "utf8")
+					+ URLEncoder.encode(",", "utf8")
 					+ URLEncoder.encode(lng, "utf8"));
 			sb.append("&radius=" + URLEncoder.encode(radius, "utf8"));
 			sb.append("&input=" + URLEncoder.encode(input, "utf8"));

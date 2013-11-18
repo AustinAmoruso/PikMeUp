@@ -26,9 +26,10 @@ public class AsyncGCMCommand extends AsyncBaseCommand {
 		String regId;
 		try {
 			regId = gcm.register(senderID);
+
 		} catch (IOException e) {
 			e.printStackTrace();
-			regId = null;
+			regId = "";
 		}
 		return new GCMResponse(regId, senderID);
 	}

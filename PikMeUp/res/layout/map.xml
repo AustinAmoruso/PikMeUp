@@ -5,25 +5,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-     <com.google.android.gms.maps.MapView
+    <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
-    
+
     <ScrollView
-        android:id="@+id/scrollView1"
+        android:id="@+id/svRequests"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" 
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
 
         <LinearLayout
+            android:id="@+id/llRequests"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>
-
-   
 
 </LinearLayout>

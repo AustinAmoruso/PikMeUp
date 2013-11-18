@@ -147,7 +147,7 @@ public class RouteNew extends Fragment implements OnClickListener,
 
 	@Override
 	public void onComplete(Object result) {
-		Drawer d = (Drawer) getActivity();
+		Main d = (Main) getActivity();
 		d.SwapFragmentByClass(Map.class.getName());
 	}
 }

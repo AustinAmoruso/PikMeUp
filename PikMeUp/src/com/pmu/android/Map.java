@@ -1,6 +1,7 @@
 package com.pmu.android;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.ksoap2.serialization.SoapObject;
@@ -19,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.amazonaws.services.s3.transfer.model.UploadResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -28,17 +30,25 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.pmu.android.api.ApiFactory;
+import com.pmu.android.api.IAction;
+import com.pmu.android.api.IActionCallback;
+import com.pmu.android.api.obj.IFeedObject;
 import com.pmu.android.api.obj.impl.Location;
 import com.pmu.android.api.transport.ITransportCallBack;
 import com.pmu.android.api.transport.ITransportResponse;
 import com.pmu.android.api.transport.impl.AsyncTransportCalls;
+import com.pmu.android.api.transport.impl.GetRequestsAction;
+import com.pmu.android.api.transport.impl.SyncAction;
 import com.pmu.android.api.transport.impl.TransportContants;
+import com.pmu.android.ui.impl.FeedUI;
 import com.pmu.android.util.SoapParser;
 
-public class Map extends Fragment implements ITransportCallBack {
+public class Map extends Fragment implements ITransportCallBack,
+		IActionCallback {
 
 	private static final int CODE = 110101;
-	MapView m;
+	private MapView m;
+	private ArrayList<FeedUI> feed;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,9 +94,19 @@ public class Map extends Fragment implements ITransportCallBack {
 			e.printStackTrace();
 		}
 		setMapToCurrentCords();
+		IAction a = new SyncAction(getActivity());
+		a.addCallback(this);
+		a.performAction();
+		loadRequests();
 	}
-	
-	private void setMapToCurrentCords(){
+
+	private void loadRequests() {
+		GetRequestsAction gra = new GetRequestsAction(getActivity());
+		gra.addCallback(this);
+		gra.performAction();
+	}
+
+	private void setMapToCurrentCords() {
 		HashMap<String, String> loc = ApiFactory.getAdapterFactory()
 				.getLocation().query(getActivity());
 		double lat = Double.valueOf(loc.get(Location.LAT));
@@ -120,10 +140,6 @@ public class Map extends Fragment implements ITransportCallBack {
 		m.onLowMemory();
 	}
 
-	private void registerGCM() {
-		AsyncTransportCalls.registerGCM(this);
-	}
-
 	public void pickImage(View View) {
 		Intent intent = new Intent();
 		intent.setType("image/*");
@@ -153,6 +169,18 @@ public class Map extends Fragment implements ITransportCallBack {
 		return cursor.getString(column_index);
 	}
 
+	private void refreshFeed() {
+		LinearLayout llF = (LinearLayout) getView().findViewById(
+				R.id.llRequests);
+		llF.removeAllViews();
+		for (IFeedObject ifo : ApiFactory.getObjectFactory(getActivity())
+				.getRequests().getIFeedObjects()) {
+			FeedUI fu = new FeedUI(ifo, getActivity());
+			feed.add(fu);
+			llF.addView(fu.getView());
+		}
+	}
+
 	@Override
 	public void onCallback(ITransportResponse response) {
 		if (response.getCaller().equalsIgnoreCase("thisisatest")) {
@@ -173,6 +201,16 @@ public class Map extends Fragment implements ITransportCallBack {
 			SoapObject so = (SoapObject) response.getResponse();
 			String json = SoapParser.getContent(so);
 			json.toCharArray();
+		}
+	}
+
+	@Override
+	public void onComplete(Object result) {
+		if (result instanceof String) {
+			String val = (String) result;
+			if (val.equalsIgnoreCase(GetRequestsAction.SUCCESS)) {
+				refreshFeed();
+			}
 		}
 	}
 }

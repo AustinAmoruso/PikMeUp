@@ -10,7 +10,6 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.pmu.android.api.ApiFactory;
-import com.pmu.android.api.IAction;
 import com.pmu.android.api.IActionCallback;
 import com.pmu.android.api.obj.impl.User;
 import com.pmu.android.api.transport.impl.SyncAction;
@@ -27,9 +26,7 @@ public class Main extends Activity implements IActionCallback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		IAction a = new SyncAction(this);
-		a.addCallback(this);
-		a.performAction();
+		
 	}
 
 	private void loadFragment() {

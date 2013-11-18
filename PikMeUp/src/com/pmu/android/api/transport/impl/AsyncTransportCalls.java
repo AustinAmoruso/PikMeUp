@@ -87,9 +87,8 @@ public class AsyncTransportCalls {
 		RunCommand(new AsyncFileUploadCommand(file, name, callback));
 	}
 
-	public static void registerGCM(ITransportCallBack callback) {
-		RunCommand(new AsyncGCMCommand(callback, context,
-				TransportContants.GCM_KEY));
+	public static void registerGCM(Context c, ITransportCallBack callback) {
+		RunCommand(new AsyncGCMCommand(callback, c, TransportContants.GCM_KEY));
 	}
 
 	public static void placeDetails(String referenceId, Location location,
@@ -154,11 +153,9 @@ public class AsyncTransportCalls {
 		CallMethod(SET_REQUEST, hmp, callback);
 	}
 
-	public static void getRequests(String deviceId, String type,
-			ITransportCallBack callback) {
+	public static void getRequests(String deviceId, ITransportCallBack callback) {
 		LinkedHashMap<String, String> hmp = new LinkedHashMap<String, String>();
 		hmp.put("deviceId", deviceId);
-		hmp.put("type", type);
 		CallMethod(GET_REQUESTS, hmp, callback);
 	}
 

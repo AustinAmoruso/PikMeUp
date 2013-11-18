@@ -80,5 +80,14 @@ public class Time extends BaseAsyncObject {
 	public String getDateDisplay() {
 		return String.format("%d/%d/%d", month, day, year);
 	}
+	
+	public void parse(String time){
+		
+	}
+	
+	@Override
+	public String toString() {
+		return "01/23/2013 12:35AM (+/-15 min)";
+	}
 
 }

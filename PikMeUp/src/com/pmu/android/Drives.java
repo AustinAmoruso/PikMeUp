@@ -34,7 +34,7 @@ public class Drives extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.add_route:
-			Drawer d = (Drawer) getActivity();
+			Main d = (Main) getActivity();
 			d.SwapFragmentByClass(RouteNew.class.getName());
 			return true;
 		default:

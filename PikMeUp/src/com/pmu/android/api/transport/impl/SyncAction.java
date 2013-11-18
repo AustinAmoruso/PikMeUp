@@ -1,5 +1,8 @@
 package com.pmu.android.api.transport.impl;
 
+import org.json.JSONObject;
+import org.ksoap2.serialization.SoapObject;
+
 import android.content.Context;
 
 import com.pmu.android.api.ApiFactory;
@@ -7,10 +10,12 @@ import com.pmu.android.api.BaseAction;
 import com.pmu.android.api.obj.impl.User;
 import com.pmu.android.api.transport.ITransportCallBack;
 import com.pmu.android.api.transport.ITransportResponse;
+import com.pmu.android.util.SoapParser;
 
 public class SyncAction extends BaseAction implements ITransportCallBack {
 
 	public static final String SUCCESS = "SyncAction_Success";
+	public static final Object FAILURE = "SyncAction_Failure";
 	private Context context;
 
 	public SyncAction(Context newContext) {
@@ -25,8 +30,8 @@ public class SyncAction extends BaseAction implements ITransportCallBack {
 	@Override
 	public void performAction() {
 		User u = ApiFactory.getObjectFactory(context).getUser();
-		if (u.getGCMID() != null && u.getGCMID().length() > 0) {
-			AsyncTransportCalls.registerGCM(this);
+		if (u.getGCMID() == null || u.getGCMID().length() < 0) {
+			AsyncTransportCalls.registerGCM(context, this);
 		} else {
 			Notify(SUCCESS);
 		}
@@ -47,7 +52,15 @@ public class SyncAction extends BaseAction implements ITransportCallBack {
 					u.getGCMID(), this);
 		} else if (response.getCaller().equalsIgnoreCase(
 				AsyncTransportCalls.SET_NOTIFICATION_ID)) {
-			Notify(SUCCESS);
+			SoapObject so = (SoapObject) response.getResponse();
+			String json = SoapParser.getContent(so);
+			try {
+				JSONObject jo = new JSONObject(json);
+				Notify(SUCCESS);
+			} catch (Exception e) {
+				e.printStackTrace();
+				Notify(FAILURE);
+			}
 		}
 	}
 

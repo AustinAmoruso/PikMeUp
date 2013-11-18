@@ -2,25 +2,24 @@ package com.pmu.android.api;
 
 import android.content.Context;
 
-import com.pmu.android.api.obj.ITrips;
-import com.pmu.android.api.obj.impl.Trips;
+import com.pmu.android.api.obj.impl.Requests;
 import com.pmu.android.api.obj.impl.User;
 
 public class ObjectFactory {
 
 	private Context context;
-	private ITrips trips;
+	private Requests requests;
 	private User user;
 
 	public ObjectFactory(Context c) {
 		context = c;
 	}
 
-	public ITrips getTrips() {
-		if (trips == null) {
-			trips = new Trips();
+	public Requests getRequests() {
+		if (requests == null) {
+			requests = new Requests();
 		}
-		return trips;
+		return requests;
 	}
 
 	public User getUser() {
