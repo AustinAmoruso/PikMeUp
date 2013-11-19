@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.ksoap2.serialization.SoapObject;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.pmu.android.api.ApiFactory;
@@ -24,7 +25,7 @@ public class GetRequestsAction extends BaseAction implements ITransportCallBack 
 	public static final String SUCCESS = "GetRequestsAction_Success";
 	public static final String FAILURE = "GetRequestsAction_Failure";
 	private Context context;
-	private Requests requests;
+	private ProgressDialog pd;
 
 	public GetRequestsAction(Context newContext) {
 		context = newContext;
@@ -37,6 +38,8 @@ public class GetRequestsAction extends BaseAction implements ITransportCallBack 
 
 	@Override
 	public void performAction() {
+		pd = ProgressDialog.show(context, "Loading Feed",
+				"Please wait as the Feed repopulates");
 		User u = ApiFactory.getObjectFactory(context).getUser();
 		AsyncTransportCalls.getRequests(u.getID(), this);
 	}
@@ -50,13 +53,15 @@ public class GetRequestsAction extends BaseAction implements ITransportCallBack 
 	public void onCallback(ITransportResponse response) {
 		if (response.getCaller().equalsIgnoreCase(
 				AsyncTransportCalls.GET_REQUESTS)) {
-			requests = new Requests();
+			pd.dismiss();
 			SoapObject so = (SoapObject) response.getResponse();
 			String json = SoapParser.getContent(so);
 			try {
 				JSONObject jo = new JSONObject(json);
 				if (jo.has("requests")) {
 					JSONArray ja = jo.getJSONArray("requests");
+					// ApiFactory.getObjectFactory(context).getRequests()
+					// .setSelected(null);
 					Requests reqs = ApiFactory.getObjectFactory(context)
 							.getRequests();
 					reqs.Clear();
@@ -68,6 +73,7 @@ public class GetRequestsAction extends BaseAction implements ITransportCallBack 
 							ifo = new Trip();
 							inner = rJO.getJSONObject("trip");
 							ifo.setType(inner.getString("type"));
+							// ifo.setType("drive");
 						} else if (rJO.has("drive")) {
 							ifo = new Request();
 							inner = rJO.getJSONObject("drive");
@@ -81,8 +87,8 @@ public class GetRequestsAction extends BaseAction implements ITransportCallBack 
 						ifo.setStart(new Location(start.getString("alias"),
 								start.getString("long"), start.getString("lat")));
 						JSONObject stop = inner.getJSONObject("stop");
-						ifo.setEnd(new Location(stop.getString("alias"), start
-								.getString("long"), start.getString("lat")));
+						ifo.setEnd(new Location(stop.getString("alias"), stop
+								.getString("long"), stop.getString("lat")));
 						Time t = new Time();
 						t.parse(inner.getString("time"));
 						ifo.setTime(t);

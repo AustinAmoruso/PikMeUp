@@ -5,6 +5,10 @@ import com.pmu.android.api.obj.impl.Time;
 
 public interface IFeedObject extends IAsncObject {
 
+	public static final String DRIVE = "drive";
+	public static final String RIDE = "ride";
+	public static final String TRIP = "trip";
+
 	public Location getStart();
 
 	public void setStart(Location start);

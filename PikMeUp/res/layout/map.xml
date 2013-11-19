@@ -5,11 +5,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+    <RelativeLayout
+        android:id="@+id/rlcont"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/txtOverlay"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/svRequests"
@@ -22,6 +38,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Feed Loading"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
     </ScrollView>
 

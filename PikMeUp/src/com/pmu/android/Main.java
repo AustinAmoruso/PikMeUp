@@ -12,6 +12,7 @@ import android.os.Bundle;
 import com.pmu.android.api.ApiFactory;
 import com.pmu.android.api.IActionCallback;
 import com.pmu.android.api.obj.impl.User;
+import com.pmu.android.api.transport.impl.AsyncTransportCalls;
 import com.pmu.android.api.transport.impl.SyncAction;
 
 public class Main extends Activity implements IActionCallback {
@@ -26,7 +27,7 @@ public class Main extends Activity implements IActionCallback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+		AsyncTransportCalls.enableQueue(this);
 	}
 
 	private void loadFragment() {
@@ -88,7 +89,13 @@ public class Main extends Activity implements IActionCallback {
 	public void onBackPressed() {
 		FragmentManager fm = getFragmentManager();
 		if (fm.getBackStackEntryCount() <= 1) {
-			finish();
+			if (ApiFactory.getObjectFactory(this).getRequests().getSelected() != null
+					&& fm.findFragmentByTag(Map.class.getName()) != null) {
+				ApiFactory.getObjectFactory(this).getRequests()
+						.setSelected(null);
+			} else {
+				finish();
+			}
 		} else {
 			super.onBackPressed();
 		}

@@ -6,6 +6,7 @@ import com.pmu.android.api.obj.IFeedObject;
 
 public class Requests extends BaseAsyncObject {
 
+	public static final String SELECTED = "Selected";
 	public static final String REMOVE = "remove";
 	public static final String ADD = "add";
 	public static final String CLEAR = "clear";
@@ -45,9 +46,14 @@ public class Requests extends BaseAsyncObject {
 
 	public synchronized void setSelected(IFeedObject i) {
 		selected = i;
+		onUpdate(SELECTED, i);
 	}
 
 	public synchronized IFeedObject getSelected() {
 		return selected;
+	}
+
+	public synchronized void update(String name, Object val) {
+		onUpdate(name, val);
 	}
 }

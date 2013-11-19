@@ -91,7 +91,7 @@ public class MapPickerFragment extends DialogFragment implements
 		GoogleMap gm = m.getMap();
 		gm.clear();
 		gm.setMyLocationEnabled(true);
-		gm.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom));
+		gm.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom));
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class MapPickerFragment extends DialogFragment implements
 				GoogleMap gm = m.getMap();
 				gm.clear();
 				gm.setMyLocationEnabled(true);
-				gm.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 13));
+				gm.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 13));
 				gm.addMarker(new MarkerOptions().title(l.getAlias()).position(
 						loc));
 			}

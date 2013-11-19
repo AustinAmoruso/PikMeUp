@@ -1,6 +1,7 @@
 package com.pmu.android;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ public class RouteNew extends Fragment implements OnClickListener,
 	private TimeUI timeUI;
 	private DateUI dateUI;
 	private FlexUI flexUI;
+	private ProgressDialog pd;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,6 +122,8 @@ public class RouteNew extends Fragment implements OnClickListener,
 			fpf.setRequest(request);
 			fpf.show(getFragmentManager(), "flexPicker");
 		} else if (v.getId() == R.id.btnRoute) {
+			pd = ProgressDialog.show(getActivity(), "Adding Request",
+					"Please wait as the server is being contacted");
 			request.setType(getRouteType());
 			IAction a = new AddRouteAction(getActivity(), request);
 			a.addCallback(this);
@@ -147,6 +151,7 @@ public class RouteNew extends Fragment implements OnClickListener,
 
 	@Override
 	public void onComplete(Object result) {
+		pd.dismiss();
 		Main d = (Main) getActivity();
 		d.SwapFragmentByClass(Map.class.getName());
 	}

@@ -18,7 +18,7 @@ public class PlaceDetailCommand extends JSONCommand {
 			ITransportCallBack callback) throws UnsupportedEncodingException {
 		super(
 				"https://maps.googleapis.com/maps/api/place/details/json?sensor=false&key="
-						+ TransportContants.API_KEY + "&reference="
+						+ TransportContants.WEB_KEY + "&reference="
 						+ URLEncoder.encode(newReferenceID, "utf8"), callback);
 		referenceID = newReferenceID;
 		location = newLocation;

@@ -1,6 +1,7 @@
 package com.pmu.android.api.obj.impl;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 public class Time extends BaseAsyncObject {
 
@@ -80,14 +81,20 @@ public class Time extends BaseAsyncObject {
 	public String getDateDisplay() {
 		return String.format("%d/%d/%d", month, day, year);
 	}
-	
-	public void parse(String time){
-		
+
+	public void parse(String time) {
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(Long.valueOf(time));
+		month = c.get(Calendar.MONTH) + 1;
+		day = c.get(Calendar.DAY_OF_MONTH);
+		year = c.get(Calendar.YEAR);
+		hour = c.get(Calendar.HOUR_OF_DAY);
+		minute = c.get(Calendar.MINUTE);
 	}
-	
+
 	@Override
 	public String toString() {
-		return "01/23/2013 12:35AM (+/-15 min)";
+		return String.format("%d/%d/%d %d:%s", month, day, year, hour, digit(minute));
 	}
 
 }

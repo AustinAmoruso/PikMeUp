@@ -15,6 +15,11 @@ public class Trip extends BaseAsyncObject implements IFeedObject {
 	private String tripID;
 	private String type;
 
+	public Trip() {
+		driver = new Request();
+		rider = new Request();
+	}
+
 	public Request getDriver() {
 		return driver;
 	}

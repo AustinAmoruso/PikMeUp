@@ -26,6 +26,8 @@ public class TransportContants {
 	public static final String SECERT_ACCESS_KEY = "UEr7NFvgWIgzZ6xlF/kB0bJdQp20ezstUMkG5qFI";
 
 	public static final String GCM_KEY = "159398720323";
-	public static final String API_KEY = "AIzaSyCU1eVPDwm0AxUHwbXVkIqIQTOd-BvGSNQ‏";
+	public static final String API_KEY = "AIzaSyAtl7Qt7BGxrXz7kn--7bTAhSw2ozBH9Fs‏";
+
+	public static final String WEB_KEY = "AIzaSyBcZ2wPuIQL6pAC2riZRRU4vwEeSmZiGZk";
 
 }

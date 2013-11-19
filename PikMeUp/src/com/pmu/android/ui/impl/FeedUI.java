@@ -3,15 +3,20 @@ package com.pmu.android.ui.impl;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pmu.android.R;
+import com.pmu.android.api.ApiFactory;
 import com.pmu.android.api.obj.IFeedObject;
 import com.pmu.android.api.obj.IObjectCallback;
+import com.pmu.android.api.obj.impl.Request;
+import com.pmu.android.api.obj.impl.Trip;
 
-public class FeedUI implements IObjectCallback {
+public class FeedUI implements IObjectCallback, OnClickListener {
 
+	public static final String MATCH = "Match";
 	IFeedObject ifo;
 	View v;
 	Context context;
@@ -31,6 +36,7 @@ public class FeedUI implements IObjectCallback {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		v = inflater.inflate(R.layout.request_item, null, false);
+		v.setOnClickListener(this);
 		iv = (ImageView) v.findViewById(R.id.ivIcon);
 		tvDate = (TextView) v.findViewById(R.id.txtDate);
 		tvStart = (TextView) v.findViewById(R.id.txtStart);
@@ -39,7 +45,20 @@ public class FeedUI implements IObjectCallback {
 	}
 
 	private void image() {
-		// iv.setImageBitmap(bm)
+		if (ifo instanceof Trip) {
+			if (ifo.getType().equalsIgnoreCase(IFeedObject.DRIVE)) {
+				iv.setImageResource(R.drawable.help);
+			} else if (ifo.getType().equalsIgnoreCase(IFeedObject.RIDE)) {
+				iv.setImageResource(R.drawable.account);
+			}
+		} else if (ifo instanceof Request) {
+			if (ifo.getType().equalsIgnoreCase(IFeedObject.DRIVE)) {
+				iv.setImageResource(R.drawable.drive);
+			} else if (ifo.getType().equalsIgnoreCase(IFeedObject.RIDE)) {
+				iv.setImageResource(R.drawable.ride);
+			}
+		}
+
 	}
 
 	private void date() {
@@ -68,6 +87,16 @@ public class FeedUI implements IObjectCallback {
 	@Override
 	public void onAction(String action, Object value) {
 		refresh();
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (ApiFactory.getObjectFactory(context).getRequests().getSelected() == null) {
+			ApiFactory.getObjectFactory(context).getRequests().setSelected(ifo);
+		} else {
+			ApiFactory.getObjectFactory(context).getRequests()
+					.update(MATCH, ifo);
+		}
 	}
 
 }
