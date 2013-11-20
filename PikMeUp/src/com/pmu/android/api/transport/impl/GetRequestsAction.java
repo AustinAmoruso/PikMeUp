@@ -73,7 +73,20 @@ public class GetRequestsAction extends BaseAction implements ITransportCallBack 
 							ifo = new Trip();
 							inner = rJO.getJSONObject("trip");
 							ifo.setType(inner.getString("type"));
-							((Trip)ifo).setStatus(inner.getString("status"));
+							Trip tempTrip = (Trip) ifo;
+							if (inner.has("flitId")) {
+								tempTrip.setFlit(inner.getString("flitId"));
+							}
+							if (inner.has("duration")) {
+								tempTrip.setDuration(inner
+										.getString("duration"));
+							}
+							if (inner.has("offer")) {
+								tempTrip.setOffer(inner.getString("offer"));
+							}
+							if (inner.has("status")) {
+								tempTrip.setStatus(inner.getString("status"));
+							}
 						} else if (rJO.has("drive")) {
 							ifo = new Request();
 							inner = rJO.getJSONObject("drive");

@@ -49,7 +49,7 @@ public class MapPickerFragment extends DialogFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.mapadd, container);
-		getDialog().setTitle("Start Location");
+		getDialog().setTitle("Enter Location");
 		m = (MapView) view.findViewById(R.id.mapView);
 		m.onCreate(savedInstanceState);
 		AutoCompleteTextView autoCompView = (AutoCompleteTextView) view

@@ -19,6 +19,8 @@ public class Trip extends BaseAsyncObject implements IFeedObject {
 	private String type;
 	private String status;
 	private String offer;
+	private String flit;
+	private String duration;
 
 	public Trip() {
 		driver = new Request();
@@ -112,6 +114,20 @@ public class Trip extends BaseAsyncObject implements IFeedObject {
 		this.offer = offer;
 	}
 
+	public String getFlit() {
+		return flit;
+	}
 
+	public void setFlit(String newFlit) {
+		flit = newFlit;
+	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
 
 }

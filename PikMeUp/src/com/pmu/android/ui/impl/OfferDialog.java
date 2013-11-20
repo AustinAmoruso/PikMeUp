@@ -13,8 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.InputType;
-import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import com.pmu.android.api.ApiFactory;
 import com.pmu.android.api.IActionCallback;
@@ -39,8 +38,10 @@ public class OfferDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		final EditText input = new EditText(getActivity());
-		input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		final NumberPicker input = new NumberPicker(getActivity());
+		input.setMaxValue(9001);
+		input.setMinValue(0);
+		input.setValue(5);
 
 		return new AlertDialog.Builder(getActivity())
 				.setTitle("Make Offer")
@@ -49,8 +50,8 @@ public class OfferDialog extends DialogFragment {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
 								OfferAction of = new OfferAction(getActivity(),
-										request, input.getText().toString(),
-										match);
+										request, String.valueOf(input
+												.getValue()), match);
 								of.performAction();
 								dismiss();
 							}
@@ -64,8 +65,9 @@ public class OfferDialog extends DialogFragment {
 										"Initalizing Flit",
 										"Please wait for the camera");
 								final OfferAction of = new OfferAction(
-										getActivity(), request, input.getText()
-												.toString(), match);
+										getActivity(), request, String
+												.valueOf(input.getValue()),
+										match);
 								of.setActivity(getActivity());
 								of.addCallback(new IActionCallback() {
 

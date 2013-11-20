@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.amazonaws.services.s3.transfer.model.UploadResult;
@@ -189,16 +190,16 @@ public class Map extends Fragment implements ITransportCallBack,
 		startActivityForResult(intent, CODE);
 	}
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == CODE && resultCode == Activity.RESULT_OK) {
-			Uri selectedImageUri = data.getData();
-			String path = getPath(selectedImageUri);
-			File f = new File(path);
-			AsyncTransportCalls.uploadFile(f, "thisisatest", this);
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+//	@Override
+//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		if (requestCode == CODE && resultCode == Activity.RESULT_OK) {
+//			Uri selectedImageUri = data.getData();
+//			String path = getPath(selectedImageUri);
+//			File f = new File(path);
+//			AsyncTransportCalls.uploadFile(f, "thisisatest", this);
+//		}
+//		super.onActivityResult(requestCode, resultCode, data);
+//	}
 
 	public String getPath(Uri uri) {
 		String[] projection = { MediaStore.Images.Media.DATA };
@@ -214,6 +215,7 @@ public class Map extends Fragment implements ITransportCallBack,
 		LinearLayout llF = (LinearLayout) getView().findViewById(
 				R.id.llRequests);
 		llF.removeAllViews();
+		resetScroll();
 		feed = new ArrayList<FeedUI>();
 		for (IFeedObject ifo : ApiFactory.getObjectFactory(getActivity())
 				.getRequests().getIFeedObjects()) {
@@ -226,10 +228,21 @@ public class Map extends Fragment implements ITransportCallBack,
 		}
 	}
 
+	private void resetScroll() {
+		try {
+			ScrollView sv = (ScrollView) getView()
+					.findViewById(R.id.svRequests);
+			sv.fullScroll(ScrollView.FOCUS_UP);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void refreshMatches() {
 		LinearLayout llF = (LinearLayout) getView().findViewById(
 				R.id.llRequests);
 		llF.removeAllViews();
+		resetScroll();
 		feed = new ArrayList<FeedUI>();
 		for (IFeedObject ifo : viewOnly.getIFeedObjects()) {
 			FeedUI fu = new FeedUI(ifo, getActivity());
@@ -273,6 +286,7 @@ public class Map extends Fragment implements ITransportCallBack,
 		LinearLayout llF = (LinearLayout) getView().findViewById(
 				R.id.llRequests);
 		llF.removeAllViews();
+		resetScroll();
 		feed = new ArrayList<FeedUI>();
 		for (IFeedObject ifo : viewOnly.getIFeedObjects()) {
 			FeedUI fu = new FeedUI(ifo, getActivity());

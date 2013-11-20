@@ -91,6 +91,11 @@ public class AsyncTransportCalls {
 		RunCommand(new AsyncFileUploadCommand(file, name, callback));
 	}
 
+	public static void downloadFile(File file, String name,
+			ITransportCallBack callBack) {
+		RunCommand(new AsyncFileDownloadCommand(file, name, callBack));
+	}
+
 	public static void registerGCM(Context c, ITransportCallBack callback) {
 		RunCommand(new AsyncGCMCommand(callback, c, TransportContants.GCM_KEY));
 	}

@@ -10,6 +10,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.Toast;
 
 import com.pmu.android.api.ApiFactory;
@@ -123,9 +124,11 @@ public class Main extends Activity implements IActionCallback {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == OfferDialog.ACTION_TAKE_VIDEO) {
 			if (resultCode == RESULT_OK) {
-				String path = data.getDataString();
-				path = path.replace("file://", "");
-				File f = new File(path);
+				// String path = data.getDataString();
+				// path = path.replace("file://", "");
+				// File f = new File(path);
+				File f = new File(Environment.getExternalStorageDirectory()
+						.getAbsolutePath() + "/flitUp.mp4");
 				IStorage s = ApiFactory.getStrorageFactory(this)
 						.getPreferences();
 				if (s.getValue("trip") != null) {
