@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pmu.android.R;
 import com.pmu.android.api.ApiFactory;
@@ -152,7 +151,12 @@ public class FeedUI implements IObjectCallback, OnClickListener,
 				} else if (t.getStatus().equalsIgnoreCase("Offer")
 						&& t.getType().equalsIgnoreCase(Request.DRIVE)) {
 					// Accept or Pass
-					Toast.makeText(context, "boch", Toast.LENGTH_LONG).show();
+					// Toast.makeText(context, "boch",
+					// Toast.LENGTH_LONG).show();
+					AcceptDialog ad = new AcceptDialog();
+					ad.setTrip(t);
+					Activity a = (Activity) context;
+					ad.show(a.getFragmentManager(), "OfferMDialog");
 				} else if (t.getStatus().equalsIgnoreCase("Offer")
 						&& t.getType().equalsIgnoreCase(Request.RIDE)) {
 					// Cancle

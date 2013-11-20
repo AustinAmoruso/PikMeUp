@@ -1,5 +1,6 @@
 package com.pmu.android;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.Scanner;
 
@@ -9,14 +10,18 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.pmu.android.api.ApiFactory;
 import com.pmu.android.api.IActionCallback;
 import com.pmu.android.api.obj.impl.Trip;
 import com.pmu.android.api.obj.impl.User;
+import com.pmu.android.api.storage.IStorage;
 import com.pmu.android.api.transport.impl.AsyncTransportCalls;
 import com.pmu.android.api.transport.impl.GetTripDetailsAction;
 import com.pmu.android.api.transport.impl.SyncAction;
+import com.pmu.android.api.transport.impl.UploadFileAction;
+import com.pmu.android.ui.impl.OfferDialog;
 
 public class Main extends Activity implements IActionCallback {
 
@@ -32,17 +37,7 @@ public class Main extends Activity implements IActionCallback {
 	protected void onCreate(Bundle b) {
 		super.onCreate(b);
 		setContentView(R.layout.main);
-		Bundle i = getIntent().getExtras();
-		// if (i != null) {
-		// String tripId = i.getString("tripId");
-		// trip = new Trip();
-		// trip.setID(tripId);
-		// GetTripDetailsAction gtda = new GetTripDetailsAction(this, trip);
-		// gtda.addCallback(this);
-		// gtda.performAction();
-		// } else {
 		loadFragment();
-		// }
 	}
 
 	@Override
@@ -121,6 +116,42 @@ public class Main extends Activity implements IActionCallback {
 			}
 		} else {
 			super.onBackPressed();
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == OfferDialog.ACTION_TAKE_VIDEO) {
+			if (resultCode == RESULT_OK) {
+				String path = data.getDataString();
+				path = path.replace("file://", "");
+				File f = new File(path);
+				IStorage s = ApiFactory.getStrorageFactory(this)
+						.getPreferences();
+				if (s.getValue("trip") != null) {
+					UploadFileAction ufa = new UploadFileAction(f,
+							(String) s.getValue("trip"), this);
+					s.setValue("trip", null);
+					ufa.addCallback(this);
+					ufa.performAction();
+				} else {
+					UploadFileAction ufa = new UploadFileAction(f,
+							(String) s.getValue("request"),
+							(String) s.getValue("match"), this);
+					s.setValue("request", null);
+					s.setValue("match", null);
+					ufa.addCallback(this);
+					ufa.performAction();
+				}
+				// Toast.makeText(this, "Video saved to:\n" + data.getData(),
+				// Toast.LENGTH_LONG).show();
+			} else if (resultCode == RESULT_CANCELED) {
+				Toast.makeText(this, "Video recording cancelled.",
+						Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(this, "Failed to record video",
+						Toast.LENGTH_LONG).show();
+			}
 		}
 	}
 

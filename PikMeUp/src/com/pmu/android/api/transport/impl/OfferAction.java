@@ -2,6 +2,7 @@ package com.pmu.android.api.transport.impl;
 
 import org.ksoap2.serialization.SoapObject;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.pmu.android.api.ApiFactory;
@@ -19,6 +20,7 @@ public class OfferAction extends BaseAction implements ITransportCallBack {
 	private Request request;
 	private Request match;
 	private String offer;
+	private Activity activity;
 
 	public OfferAction(Context newContext, Request newRequest, String newOffer,
 			Request newMatch) {
@@ -55,6 +57,14 @@ public class OfferAction extends BaseAction implements ITransportCallBack {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void setActivity(Activity newActivity) {
+		activity = newActivity;
+	}
+
+	public Activity getActivity() {
+		return activity;
 	}
 
 }

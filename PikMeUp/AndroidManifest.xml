@@ -11,6 +11,7 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    <uses-feature android:name="android.hardware.camera" />
 
     <permission
         android:name="com.pmu.android.permission.C2D_MESSAGE"

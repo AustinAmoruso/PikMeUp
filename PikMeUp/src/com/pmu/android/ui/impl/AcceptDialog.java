@@ -45,7 +45,7 @@ public class AcceptDialog extends DialogFragment {
 								ora.performAction();
 								dismiss();
 							}
-						}).setView(input)
-				.setMessage("Make this trip for $" + trip.getOffer()).create();
+						}).setView(input).setMessage("Make this trip for")
+				.create();
 	}
 }
