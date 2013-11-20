@@ -2,36 +2,28 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/green" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
-        <Switch
+	<Switch
             android:id="@+id/switchType"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Type"
+            android:text=" "
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:textOff="Driver"
             android:textOn="Rider" />
-
-        <TextView
-            android:id="@+id/TextView05"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:text="Start"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp">
 
             <AutoCompleteTextView
                 android:id="@+id/edtStart"
@@ -40,7 +32,13 @@
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress" >
+                android:inputType="textPostalAddress"
+                android:hint="Start"
+                android:textColor="@color/lightgrey"
+                android:textColorHint="@color/lightgrey"
+                style="@style/EditTextpikyuppy"
+                  >
+                 
             </AutoCompleteTextView>
 
             <ImageView
@@ -49,20 +47,13 @@
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:layout_weight="0"
-                android:src="@drawable/location" />
+                android:src="@drawable/start" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/TextView04"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="End"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp" >
 
             <AutoCompleteTextView
                 android:id="@+id/edtEnd"
@@ -71,7 +62,11 @@
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress" 
+                android:hint="End" 
+                android:textColor="@color/lightgrey"
+                android:textColorHint="@color/lightgrey"
+                style="@style/EditTextpikyuppy"/>
 
             <ImageView
                 android:id="@+id/imgEnd"
@@ -79,20 +74,13 @@
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:layout_weight="0"
-                android:src="@drawable/location" />
+                android:src="@drawable/end" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/TextView03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="Date"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp" >
 
             <AutoCompleteTextView
                 android:id="@+id/edtDate"
@@ -101,7 +89,11 @@
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress" 
+                android:hint="Date"
+                android:textColor="@color/lightgrey"
+                android:textColorHint="@color/lightgrey"
+                style="@style/EditTextpikyuppy" />
 
             <ImageView
                 android:id="@+id/imgDate"
@@ -112,17 +104,10 @@
                 android:src="@drawable/date" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/TextView02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="Time"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp" >
 
             <AutoCompleteTextView
                 android:id="@+id/edtTime"
@@ -131,7 +116,11 @@
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress" >
+                android:inputType="textPostalAddress" 
+                android:hint="Time"
+                android:textColor="@color/lightgrey"
+                android:textColorHint="@color/lightgrey"
+                style="@style/EditTextpikyuppy" >
             </AutoCompleteTextView>
 
             <ImageView
@@ -143,17 +132,10 @@
                 android:src="@drawable/time" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/TextView01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="Flex"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp" >
 
             <AutoCompleteTextView
                 android:id="@+id/edtFlex"
@@ -162,7 +144,11 @@
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress" />
+                android:inputType="textPostalAddress" 
+                android:hint="Flex"
+                android:textColor="@color/lightgrey"
+                android:textColorHint="@color/lightgrey"
+                style="@style/EditTextpikyuppy" />
 
             <ImageView
                 android:id="@+id/imgFlex"
@@ -178,7 +164,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Route"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp"
+            style="@style/Buttonpikyuppy"
+            android:textColor="@color/darkgrey" />
 
     </LinearLayout>
 
