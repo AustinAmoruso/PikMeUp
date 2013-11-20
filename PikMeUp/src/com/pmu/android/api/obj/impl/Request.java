@@ -13,6 +13,9 @@ public class Request extends BaseAsyncObject implements ISerialize, IFeedObject 
 	public static final String TIME = "time";
 	public static final String STOP = "stop";
 	public static final String START = "start";
+	public static final String DRIVE = "drive";
+	public static final String RIDE = "ride";
+	public static final String TRIP = "trip";
 	private Location start;
 	private Location stop;
 	private String flex;

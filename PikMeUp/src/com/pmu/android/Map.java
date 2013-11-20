@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,9 +31,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.LatLngBounds.Builder;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.pmu.android.api.ApiFactory;
@@ -43,11 +47,13 @@ import com.pmu.android.api.obj.IObjectCallback;
 import com.pmu.android.api.obj.impl.Location;
 import com.pmu.android.api.obj.impl.Request;
 import com.pmu.android.api.obj.impl.Requests;
+import com.pmu.android.api.obj.impl.Trip;
 import com.pmu.android.api.transport.ITransportCallBack;
 import com.pmu.android.api.transport.ITransportResponse;
 import com.pmu.android.api.transport.impl.AsyncTransportCalls;
 import com.pmu.android.api.transport.impl.GetMatchesAction;
 import com.pmu.android.api.transport.impl.GetRequestsAction;
+import com.pmu.android.api.transport.impl.GetTripDetailsAction;
 import com.pmu.android.api.transport.impl.SyncAction;
 import com.pmu.android.api.transport.impl.TransportContants;
 import com.pmu.android.ui.impl.FeedUI;
@@ -58,9 +64,12 @@ public class Map extends Fragment implements ITransportCallBack,
 
 	private static final int CODE = 110101;
 	private MapView m;
+	private GoogleMap gm;
 	private ArrayList<FeedUI> feed;
 	private Requests viewOnly;
 	private TextView tvOverlay;
+	private Trip tripHolder;
+	private CircleOptions co;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +107,7 @@ public class Map extends Fragment implements ITransportCallBack,
 	@Override
 	public void onResume() {
 		super.onResume();
+		getActivity().getActionBar().show();
 		m.onResume();
 		viewOnly = new Requests();
 		tvOverlay = (TextView) getView().findViewById(R.id.txtOverlay);
@@ -108,6 +118,7 @@ public class Map extends Fragment implements ITransportCallBack,
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		gm = m.getMap();
 		setMapToCurrentCords();
 		IAction a = new SyncAction(getActivity());
 		a.addCallback(this);
@@ -133,10 +144,21 @@ public class Map extends Fragment implements ITransportCallBack,
 
 	private void setMapCordinates(double lat, double lng, int zoom) {
 		LatLng loc = new LatLng(lat, lng);
-		GoogleMap gm = m.getMap();
+		resetMap();
+		gm.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom));
+	}
+
+	public void resetMap() {
 		gm.clear();
 		gm.setMyLocationEnabled(true);
-		gm.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, zoom));
+		UiSettings s = gm.getUiSettings();
+		// s.setAllGesturesEnabled(false);
+		s.setCompassEnabled(false);
+		s.setMyLocationButtonEnabled(false);
+		s.setScrollGesturesEnabled(true);
+		s.setTiltGesturesEnabled(false);
+		s.setZoomControlsEnabled(false);
+		s.setZoomGesturesEnabled(false);
 	}
 
 	@Override
@@ -234,18 +256,68 @@ public class Map extends Fragment implements ITransportCallBack,
 	}
 
 	private void loadMatches(Request r) {
-		GoogleMap gm = m.getMap();
+		GetMatchesAction gma = new GetMatchesAction(r, getActivity(), viewOnly);
+		gma.addCallback(this);
+		gma.performAction();
 		gm.clear();
 		tvOverlay.setText(r.getType().toUpperCase() + " "
 				+ r.getTime().toString());
 		displayRequest(r, gm);
-		GetMatchesAction gma = new GetMatchesAction(r, getActivity(), viewOnly);
-		gma.addCallback(this);
-		gma.performAction();
+	}
+
+	private void refreshTrip() {
+		drawTripOnMap();
+		viewOnly.Clear();
+		viewOnly.add(tripHolder.getDriver());
+		viewOnly.add(tripHolder.getRider());
+		LinearLayout llF = (LinearLayout) getView().findViewById(
+				R.id.llRequests);
+		llF.removeAllViews();
+		feed = new ArrayList<FeedUI>();
+		for (IFeedObject ifo : viewOnly.getIFeedObjects()) {
+			FeedUI fu = new FeedUI(ifo, getActivity());
+			fu.setClickable(false);
+			feed.add(fu);
+			llF.addView(fu.getView());
+		}
+		if (feed.size() == 0) {
+			llF.addView(getEmptyTextview());
+		}
+	}
+
+	private void drawTripOnMap() {
+		gm.clear();
+		if (tripHolder != null) {
+			Request primary;
+			Request secondary;
+			if (tripHolder.getType().equalsIgnoreCase("drive")) {
+				primary = tripHolder.getDriver();
+				secondary = tripHolder.getRider();
+			} else {
+				primary = tripHolder.getRider();
+				secondary = tripHolder.getDriver();
+			}
+			if (primary != null && secondary != null) {
+				displayRequest(primary, gm);
+				displayMatch(secondary, gm);
+				ArrayList<Request> rs = new ArrayList<Request>();
+				rs.add(primary);
+				rs.add(secondary);
+				MoveCamera(rs);
+			}
+		}
+
+	}
+
+	private void loadTrip(Trip t) {
+		tripHolder = t;
+		gm.clear();
+		GetTripDetailsAction gtda = new GetTripDetailsAction(getActivity(), t);
+		gtda.addCallback(this);
+		gtda.performAction();
 	}
 
 	private void displayRequest(Request r, GoogleMap gm) {
-		gm.setMyLocationEnabled(true);
 		LatLng sLatLng = new LatLng(Double.valueOf(r.getStart().getLatitude()),
 				Double.valueOf(r.getStart().getLongitude()));
 		gm.addMarker(new MarkerOptions()
@@ -263,13 +335,12 @@ public class Map extends Fragment implements ITransportCallBack,
 				.icon(BitmapDescriptorFactory
 						.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 		gm.addPolyline(new PolylineOptions().add(sLatLng).add(eLatLng));
-		LatLngBounds llb = LatLngBounds.builder().include(sLatLng)
-				.include(eLatLng).build();
-		gm.moveCamera(CameraUpdateFactory.newLatLngBounds(llb, 100));
+		ArrayList<Request> rs = new ArrayList<Request>();
+		rs.add(r);
+		MoveCamera(rs);
 	}
 
 	private void displayMatch(Request r, GoogleMap gm) {
-		gm.setMyLocationEnabled(true);
 		LatLng sLatLng = new LatLng(Double.valueOf(r.getStart().getLatitude()),
 				Double.valueOf(r.getStart().getLongitude()));
 		gm.addMarker(new MarkerOptions()
@@ -324,6 +395,8 @@ public class Map extends Fragment implements ITransportCallBack,
 				refreshFeed();
 			} else if (val.equalsIgnoreCase(GetMatchesAction.SUCCESS)) {
 				refreshMatches();
+			} else if (val.equalsIgnoreCase(GetTripDetailsAction.SUCCESS)) {
+				refreshTrip();
 			}
 		}
 	}
@@ -335,6 +408,9 @@ public class Map extends Fragment implements ITransportCallBack,
 				if (value instanceof Request) {
 					Request r = (Request) value;
 					loadMatches(r);
+				} else if (value instanceof Trip) {
+					Trip t = (Trip) value;
+					loadTrip(t);
 				}
 			} else {
 				viewOnly = new Requests();
@@ -347,28 +423,58 @@ public class Map extends Fragment implements ITransportCallBack,
 				loadRequests();
 			}
 		} else if (action.equalsIgnoreCase(FeedUI.MATCH)) {
-			GoogleMap gm = m.getMap();
 			gm.clear();
 			Request r = (Request) ApiFactory.getObjectFactory(getActivity())
 					.getRequests().getSelected();
 			displayRequest(r, gm);
-			LatLng sLatLng = new LatLng(Double.valueOf(r.getStart()
-					.getLatitude()),
-					Double.valueOf(r.getStart().getLongitude()));
-			LatLng eLatLng = new LatLng(
-					Double.valueOf(r.getEnd().getLatitude()), Double.valueOf(r
-							.getEnd().getLongitude()));
 			Request m = (Request) value;
 			displayMatch(m, gm);
-			LatLng msLatLng = new LatLng(Double.valueOf(m.getStart()
-					.getLatitude()),
-					Double.valueOf(m.getStart().getLongitude()));
-			LatLng meLatLng = new LatLng(Double.valueOf(m.getEnd()
-					.getLatitude()), Double.valueOf(m.getEnd().getLongitude()));
-			LatLngBounds llb = LatLngBounds.builder().include(sLatLng)
-					.include(eLatLng).include(meLatLng).include(msLatLng)
-					.build();
+			ArrayList<Request> rs = new ArrayList<Request>();
+			rs.add(r);
+			rs.add(m);
+			MoveCamera(rs);
+		}
+	}
+
+	private void MoveCamera(ArrayList<Request> reqs) {
+		Builder b = LatLngBounds.builder();
+		for (Request r : reqs) {
+			LatLng start = new LatLng(
+					Double.valueOf(r.getStart().getLatitude()),
+					Double.valueOf(r.getStart().getLongitude()));
+			LatLng stop = new LatLng(Double.valueOf(r.getEnd().getLatitude()),
+					Double.valueOf(r.getEnd().getLongitude()));
+			b.include(start);
+			b.include(stop);
+		}
+		LatLngBounds llb = b.build();
+		if (llb != null) {
 			gm.moveCamera(CameraUpdateFactory.newLatLngBounds(llb, 100));
+			// drawTint(llb);
+		}
+	}
+
+	private void drawTint(LatLngBounds llb) {
+
+		// LatLng ne = new LatLng(llb.northeast.latitude + 1,
+		// llb.northeast.longitude + 1);
+		// LatLng sw = new LatLng(llb.southwest.latitude - 1,
+		// llb.southwest.longitude - 1);
+		// LatLng nw = new LatLng(sw.latitude - 1, ne.longitude + 1);
+		// LatLng se = new LatLng(ne.latitude + 1, sw.longitude - 1);
+		// PolygonOptions rectOptions = new PolygonOptions()
+		// .add(nw, ne, se, sw, nw).strokeColor(Color.WHITE)
+		// .fillColor(Color.argb(76, 0, 0, 0));
+		if (co == null) {
+			co = new CircleOptions().center(llb.getCenter()).radius(40074000)
+					.strokeColor(Color.TRANSPARENT)
+					.fillColor(Color.argb(76, 0, 0, 0));
+			gm.addCircle(co);
+		} else {
+			co = new CircleOptions().center(llb.getCenter()).radius(40074000)
+					.strokeColor(Color.TRANSPARENT)
+					.fillColor(Color.argb(76, 0, 0, 0));
+			gm.addCircle(co);
 		}
 	}
 }

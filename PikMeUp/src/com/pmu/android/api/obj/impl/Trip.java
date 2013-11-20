@@ -10,10 +10,15 @@ public class Trip extends BaseAsyncObject implements IFeedObject {
 	public static final String TIME = "time";
 	public static final String STOP = "stop";
 	public static final String START = "start";
+	public static final String DRIVE = "drive";
+	public static final String RIDE = "ride";
+	public static final String TRIP = "trip";
 	private Request driver;
 	private Request rider;
 	private String tripID;
 	private String type;
+	private String status;
+	private String offer;
 
 	public Trip() {
 		driver = new Request();
@@ -90,5 +95,23 @@ public class Trip extends BaseAsyncObject implements IFeedObject {
 	public void setTime(Time time) {
 		rider.setTime(time);
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getOffer() {
+		return offer;
+	}
+
+	public void setOffer(String offer) {
+		this.offer = offer;
+	}
+
+
 
 }

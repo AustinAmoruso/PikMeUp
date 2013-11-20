@@ -7,21 +7,42 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.pmu.android.api.ApiFactory;
 import com.pmu.android.api.IActionCallback;
+import com.pmu.android.api.obj.impl.Trip;
 import com.pmu.android.api.obj.impl.User;
 import com.pmu.android.api.transport.impl.AsyncTransportCalls;
+import com.pmu.android.api.transport.impl.GetTripDetailsAction;
 import com.pmu.android.api.transport.impl.SyncAction;
 
 public class Main extends Activity implements IActionCallback {
 
+	Trip trip;
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+	}
+
+	@Override
+	protected void onCreate(Bundle b) {
+		super.onCreate(b);
 		setContentView(R.layout.main);
+		Bundle i = getIntent().getExtras();
+		// if (i != null) {
+		// String tripId = i.getString("tripId");
+		// trip = new Trip();
+		// trip.setID(tripId);
+		// GetTripDetailsAction gtda = new GetTripDetailsAction(this, trip);
+		// gtda.addCallback(this);
+		// gtda.performAction();
+		// } else {
 		loadFragment();
+		// }
 	}
 
 	@Override
@@ -81,6 +102,8 @@ public class Main extends Activity implements IActionCallback {
 		if (result instanceof String) {
 			String val = (String) result;
 			if (val.equalsIgnoreCase(SyncAction.SUCCESS)) {
+
+			} else if (val.equalsIgnoreCase(GetTripDetailsAction.SUCCESS)) {
 
 			}
 		}

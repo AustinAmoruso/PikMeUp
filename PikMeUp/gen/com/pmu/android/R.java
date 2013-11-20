@@ -163,9 +163,10 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f040006;
         public static final int common_signin_btn_light_text_focused=0x7f040007;
         public static final int common_signin_btn_light_text_pressed=0x7f040005;
-        public static final int common_signin_btn_text_dark=0x7f04000b;
-        public static final int common_signin_btn_text_light=0x7f04000c;
+        public static final int common_signin_btn_text_dark=0x7f04000c;
+        public static final int common_signin_btn_text_light=0x7f04000d;
         public static final int grey=0x7f04000a;
+        public static final int over=0x7f04000b;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -215,13 +216,9 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f020022;
         public static final int icon=0x7f020023;
         public static final int location=0x7f020024;
-        public static final int plus18=0x7f020025;
-        public static final int plus24=0x7f020026;
-        public static final int plus36=0x7f020027;
-        public static final int plus48=0x7f020028;
-        public static final int ride=0x7f020029;
-        public static final int time=0x7f02002a;
-        public static final int view_border=0x7f02002b;
+        public static final int ride=0x7f020025;
+        public static final int time=0x7f020026;
+        public static final int view_border=0x7f020027;
     }
     public static final class id {
         public static final int LinearLayout1=0x7f050016;

@@ -13,7 +13,6 @@ import android.widget.EditText;
 import com.pmu.android.api.IAction;
 import com.pmu.android.api.IActionCallback;
 import com.pmu.android.api.transport.impl.CreateUserAction;
-import com.pmu.android.api.transport.impl.SyncAction;
 
 public class Create extends Fragment implements OnClickListener,
 		IActionCallback {
@@ -31,6 +30,7 @@ public class Create extends Fragment implements OnClickListener,
 	public void onResume() {
 		super.onResume();
 		initButton();
+		getActivity().getActionBar().hide();
 	}
 
 	private void initButton() {
