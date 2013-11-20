@@ -107,8 +107,8 @@ public class FeedUI implements IObjectCallback, OnClickListener,
 				ApiFactory.getObjectFactory(context).getRequests()
 						.update(MATCH, ifo);
 			}
-		}else{
-//			Toast.makeText(context, "boch", Toast.LENGTH_LONG).show();
+		} else {
+			// Toast.makeText(context, "boch", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -145,13 +145,10 @@ public class FeedUI implements IObjectCallback, OnClickListener,
 				if (t.getStatus().equalsIgnoreCase("Match")
 						&& t.getType().equalsIgnoreCase(Request.RIDE)) {
 					// make offer
-					OfferDialog of = new OfferDialog();
-					of.setRequest((Request) ApiFactory
-							.getObjectFactory(context).getRequests()
-							.getSelected());
-					of.setMatch((Request) ifo);
+					OfferMDialog of = new OfferMDialog();
+					of.setTrip(t);
 					Activity a = (Activity) context;
-					of.show(a.getFragmentManager(), "OfferDialog");
+					of.show(a.getFragmentManager(), "OfferMDialog");
 				} else if (t.getStatus().equalsIgnoreCase("Offer")
 						&& t.getType().equalsIgnoreCase(Request.DRIVE)) {
 					// Accept or Pass
@@ -187,7 +184,7 @@ public class FeedUI implements IObjectCallback, OnClickListener,
 				}
 			}
 		} else {
-//			Toast.makeText(context, "boch", Toast.LENGTH_LONG).show();
+			// Toast.makeText(context, "boch", Toast.LENGTH_LONG).show();
 		}
 		return true;
 	}

@@ -12,6 +12,7 @@ import com.pmu.android.api.transport.ITransportCallBack;
 
 public class AsyncTransportCalls {
 
+	public static final String OFFER_TRIP = "offerTrip";
 	public static final String GET_TRIP_DETAILS = "getTripDetails";
 	public static final String GET_LOCATIONS = "getLocations";
 	public static final String SET_NOTIFICATION_ID = "setNotificationId";
@@ -248,6 +249,16 @@ public class AsyncTransportCalls {
 		hmp.put("pin", pin);
 		hmp.put("tripId", tripId);
 		CallMethod(GET_TRIP_DETAILS, hmp, callback);
+	}
+
+	public static void offerTrip(String deviceId, String pin, String offer,
+			String tripId, ITransportCallBack callback) {
+		LinkedHashMap<String, String> hmp = new LinkedHashMap<String, String>();
+		hmp.put("deviceId", deviceId);
+		hmp.put("pin", pin);
+		hmp.put("offer", offer);
+		hmp.put("tripId", tripId);
+		CallMethod(OFFER_TRIP, hmp, callback);
 	}
 
 }
