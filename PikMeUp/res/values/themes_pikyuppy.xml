@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="pikyuppy" parent="android:Theme.Light">
+
+    <item name="android:editTextStyle">@style/EditTextpikyuppy</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewpikyuppy</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxpikyuppy</item>
+
+    <item name="android:radioButtonStyle">@style/RadioButtonpikyuppy</item>
+
+    <item name="android:buttonStyle">@style/Buttonpikyuppy</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonpikyuppy</item>
+
+    <item name="android:spinnerStyle">@style/Spinnerpikyuppy</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/Spinnerpikyuppy.DropDown</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItempikyuppy</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarpikyuppy</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarpikyuppy</item>
+
+    <item name="android:ratingBarStyle">@style/RatingBarpikyuppy</item>
+
+    <item name="android:ratingBarStyleIndicator">@style/RatingBarBigpikyuppy</item>
+
+    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallpikyuppy</item>
+
+    <item name="android:buttonStyleToggle">@style/Togglepikyuppy</item>
+
+    <item name="android:listViewStyle">@style/ListViewpikyuppy</item>
+
+    <item name="android:listViewWhiteStyle">@style/ListViewpikyuppy.White</item>
+
+    <item name="android:spinnerItemStyle">@style/SpinnerItempikyuppy</item>
+
+  </style>
+
+</resources>

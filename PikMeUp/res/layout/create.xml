@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/green" >
 
     <ImageView
         android:id="@+id/imageView1"
@@ -13,8 +14,9 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/icon" />
-
+        android:src="@drawable/icon" 
+        />
+    
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
@@ -23,7 +25,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
-        android:text="Register" />
+        android:text="Register" 
+        android:textColor="@color/darkgrey"
+        style="@style/Buttonpikyuppy" />
 
     <EditText
         android:id="@+id/edtPassword"
@@ -35,7 +39,8 @@
         android:layout_margin="10dp"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPassword" >
+        android:inputType="textPassword" 
+        android:textColor="@color/lightgrey" >
 
         <requestFocus />
     </EditText>
@@ -49,6 +54,7 @@
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
         android:ems="10"
-        android:hint="UserName" />
+        android:hint="UserName" 
+        android:textColor="@color/lightgrey" />
 
 </RelativeLayout>
