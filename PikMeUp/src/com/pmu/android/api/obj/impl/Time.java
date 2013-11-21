@@ -94,7 +94,7 @@ public class Time extends BaseAsyncObject {
 
 	@Override
 	public String toString() {
-		return String.format("%d/%d/%d %d:%s", month, day, year, hour, digit(minute));
+		return String.format("%d/%d %d:%s", month, day, hour, digit(minute));
 	}
 
 }

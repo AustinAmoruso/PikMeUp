@@ -9,36 +9,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-	<Switch
+
+        <Switch
             android:id="@+id/switchType"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text=" "
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
+            android:text=" "
             android:textOff="Driver"
             android:textOn="Rider" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp" >
 
             <AutoCompleteTextView
                 android:id="@+id/edtStart"
+                style="@style/EditTextpikyuppy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress"
+                android:enabled="false"
                 android:hint="Start"
+                android:inputType="textPostalAddress"
                 android:textColor="@color/lightgrey"
-                android:textColorHint="@color/lightgrey"
-                style="@style/EditTextpikyuppy"
-                  >
-                 
+                android:textColorHint="@color/lightgrey" >
             </AutoCompleteTextView>
 
             <ImageView
@@ -57,16 +58,17 @@
 
             <AutoCompleteTextView
                 android:id="@+id/edtEnd"
+                style="@style/EditTextpikyuppy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress" 
-                android:hint="End" 
+                android:enabled="false"
+                android:hint="End"
+                android:inputType="textPostalAddress"
                 android:textColor="@color/lightgrey"
-                android:textColorHint="@color/lightgrey"
-                style="@style/EditTextpikyuppy"/>
+                android:textColorHint="@color/lightgrey" />
 
             <ImageView
                 android:id="@+id/imgEnd"
@@ -84,16 +86,17 @@
 
             <AutoCompleteTextView
                 android:id="@+id/edtDate"
+                style="@style/EditTextpikyuppy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress" 
+                android:enabled="false"
                 android:hint="Date"
+                android:inputType="textPostalAddress"
                 android:textColor="@color/lightgrey"
-                android:textColorHint="@color/lightgrey"
-                style="@style/EditTextpikyuppy" />
+                android:textColorHint="@color/lightgrey" />
 
             <ImageView
                 android:id="@+id/imgDate"
@@ -101,7 +104,7 @@
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:layout_weight="0"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/date" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,16 +114,17 @@
 
             <AutoCompleteTextView
                 android:id="@+id/edtTime"
+                style="@style/EditTextpikyuppy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress" 
+                android:enabled="false"
                 android:hint="Time"
+                android:inputType="textPostalAddress"
                 android:textColor="@color/lightgrey"
-                android:textColorHint="@color/lightgrey"
-                style="@style/EditTextpikyuppy" >
+                android:textColorHint="@color/lightgrey" >
             </AutoCompleteTextView>
 
             <ImageView
@@ -129,7 +133,7 @@
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:layout_weight="0"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/time" />
         </LinearLayout>
 
         <LinearLayout
@@ -139,16 +143,17 @@
 
             <AutoCompleteTextView
                 android:id="@+id/edtFlex"
+                style="@style/EditTextpikyuppy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="10"
                 android:ems="10"
-                android:inputType="textPostalAddress" 
+                android:enabled="false"
                 android:hint="Flex"
+                android:inputType="textPostalAddress"
                 android:textColor="@color/lightgrey"
-                android:textColorHint="@color/lightgrey"
-                style="@style/EditTextpikyuppy" />
+                android:textColorHint="@color/lightgrey" />
 
             <ImageView
                 android:id="@+id/imgFlex"
@@ -156,18 +161,17 @@
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:layout_weight="0"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/flex" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btnRoute"
+            style="@style/Buttonpikyuppy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Route"
             android:layout_margin="5dp"
-            style="@style/Buttonpikyuppy"
+            android:text="Add Route"
             android:textColor="@color/darkgrey" />
-
     </LinearLayout>
 
 </ScrollView>

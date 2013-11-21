@@ -27,6 +27,7 @@ public class FeedUI implements IObjectCallback, OnClickListener,
 	TextView tvDate;
 	TextView tvStart;
 	TextView tvEnd;
+	TextView tvDuration;
 	boolean clickable;
 
 	public FeedUI(IFeedObject newIFO, Context newContext) {
@@ -47,15 +48,16 @@ public class FeedUI implements IObjectCallback, OnClickListener,
 		tvDate = (TextView) v.findViewById(R.id.txtDate);
 		tvStart = (TextView) v.findViewById(R.id.txtStart);
 		tvEnd = (TextView) v.findViewById(R.id.txtEnd);
+		tvDuration = (TextView) v.findViewById(R.id.txtDuration);
 		refresh();
 	}
 
 	private void image() {
 		if (ifo instanceof Trip) {
 			if (ifo.getType().equalsIgnoreCase(Trip.DRIVE)) {
-				iv.setImageResource(R.drawable.help);
+				iv.setImageResource(R.drawable.drivertrip);
 			} else if (ifo.getType().equalsIgnoreCase(Trip.RIDE)) {
-				iv.setImageResource(R.drawable.account);
+				iv.setImageResource(R.drawable.ridertrip);
 			}
 		} else if (ifo instanceof Request) {
 			if (ifo.getType().equalsIgnoreCase(Request.DRIVE)) {
@@ -84,6 +86,13 @@ public class FeedUI implements IObjectCallback, OnClickListener,
 		date();
 		start();
 		end();
+		duration();
+	}
+
+	private void duration() {
+		if (ifo.getDuration() != null) {
+			tvDuration.setText(ifo.getDuration());
+		}
 	}
 
 	public View getView() {

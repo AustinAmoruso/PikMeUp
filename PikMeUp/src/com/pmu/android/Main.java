@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.Scanner;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -38,6 +39,10 @@ public class Main extends Activity implements IActionCallback {
 	protected void onCreate(Bundle b) {
 		super.onCreate(b);
 		setContentView(R.layout.main);
+		final ActionBar actionBar = getActionBar();
+		actionBar.setCustomView(R.layout.ab);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowCustomEnabled(true);
 		loadFragment();
 	}
 

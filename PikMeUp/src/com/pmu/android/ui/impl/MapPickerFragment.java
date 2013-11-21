@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pmu.android.R;
@@ -134,8 +135,12 @@ public class MapPickerFragment extends DialogFragment implements
 				gm.clear();
 				gm.setMyLocationEnabled(true);
 				gm.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 13));
-				gm.addMarker(new MarkerOptions().title(l.getAlias()).position(
-						loc));
+				gm.addMarker(new MarkerOptions()
+						.title(l.getAlias())
+						.position(loc)
+						.icon(BitmapDescriptorFactory
+								.fromResource(R.drawable.mstart)));
+
 			}
 		}
 	}

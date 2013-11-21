@@ -1,12 +1,10 @@
 package com.pmu.android;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.ksoap2.serialization.SoapObject;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
@@ -190,16 +188,17 @@ public class Map extends Fragment implements ITransportCallBack,
 		startActivityForResult(intent, CODE);
 	}
 
-//	@Override
-//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		if (requestCode == CODE && resultCode == Activity.RESULT_OK) {
-//			Uri selectedImageUri = data.getData();
-//			String path = getPath(selectedImageUri);
-//			File f = new File(path);
-//			AsyncTransportCalls.uploadFile(f, "thisisatest", this);
-//		}
-//		super.onActivityResult(requestCode, resultCode, data);
-//	}
+	// @Override
+	// public void onActivityResult(int requestCode, int resultCode, Intent
+	// data) {
+	// if (requestCode == CODE && resultCode == Activity.RESULT_OK) {
+	// Uri selectedImageUri = data.getData();
+	// String path = getPath(selectedImageUri);
+	// File f = new File(path);
+	// AsyncTransportCalls.uploadFile(f, "thisisatest", this);
+	// }
+	// super.onActivityResult(requestCode, resultCode, data);
+	// }
 
 	public String getPath(Uri uri) {
 		String[] projection = { MediaStore.Images.Media.DATA };
@@ -338,17 +337,17 @@ public class Map extends Fragment implements ITransportCallBack,
 				.title("Start")
 				.snippet(r.getStart().getAlias())
 				.position(sLatLng)
-				.icon(BitmapDescriptorFactory
-						.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+				.icon(BitmapDescriptorFactory.fromResource(R.drawable.rstart)));
 		LatLng eLatLng = new LatLng(Double.valueOf(r.getEnd().getLatitude()),
 				Double.valueOf(r.getEnd().getLongitude()));
 		gm.addMarker(new MarkerOptions()
 				.title("Stop")
 				.snippet(r.getEnd().getAlias())
 				.position(eLatLng)
-				.icon(BitmapDescriptorFactory
-						.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-		gm.addPolyline(new PolylineOptions().add(sLatLng).add(eLatLng));
+				.icon(BitmapDescriptorFactory.fromResource(R.drawable.rend)));
+		
+		gm.addPolyline(new PolylineOptions().add(sLatLng).add(eLatLng)
+				.color(Color.GRAY));
 		ArrayList<Request> rs = new ArrayList<Request>();
 		rs.add(r);
 		MoveCamera(rs);
@@ -361,18 +360,16 @@ public class Map extends Fragment implements ITransportCallBack,
 				.title("Start")
 				.snippet(r.getStart().getAlias())
 				.position(sLatLng)
-				.icon(BitmapDescriptorFactory
-						.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+				.icon(BitmapDescriptorFactory.fromResource(R.drawable.mstart)));
 		LatLng eLatLng = new LatLng(Double.valueOf(r.getEnd().getLatitude()),
 				Double.valueOf(r.getEnd().getLongitude()));
 		gm.addMarker(new MarkerOptions()
 				.title("Stop")
 				.snippet(r.getEnd().getAlias())
 				.position(eLatLng)
-				.icon(BitmapDescriptorFactory
-						.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+				.icon(BitmapDescriptorFactory.fromResource(R.drawable.mend)));
 		gm.addPolyline(new PolylineOptions().add(sLatLng).add(eLatLng)
-				.color(R.color.grey));
+				.color(Color.WHITE));
 		LatLngBounds llb = LatLngBounds.builder().include(sLatLng)
 				.include(eLatLng).build();
 		// gm.animateCamera(CameraUpdateFactory.newLatLngBounds(llb, 100));

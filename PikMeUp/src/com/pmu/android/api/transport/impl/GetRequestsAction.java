@@ -77,10 +77,7 @@ public class GetRequestsAction extends BaseAction implements ITransportCallBack 
 							if (inner.has("flitId")) {
 								tempTrip.setFlit(inner.getString("flitId"));
 							}
-							if (inner.has("duration")) {
-								tempTrip.setDuration(inner
-										.getString("duration"));
-							}
+							
 							if (inner.has("offer")) {
 								tempTrip.setOffer(inner.getString("offer"));
 							}
@@ -103,6 +100,10 @@ public class GetRequestsAction extends BaseAction implements ITransportCallBack 
 						ifo.setEnd(new Location(stop.getString("alias"), stop
 								.getString("long"), stop.getString("lat")));
 						Time t = new Time();
+						if (inner.has("duration")) {
+							ifo.setDuration(inner
+									.getString("duration"));
+						}
 						t.parse(inner.getString("time"));
 						ifo.setTime(t);
 						ifo.setFlex(inner.getString("flex"));

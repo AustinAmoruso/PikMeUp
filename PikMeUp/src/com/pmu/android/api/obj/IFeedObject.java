@@ -5,8 +5,6 @@ import com.pmu.android.api.obj.impl.Time;
 
 public interface IFeedObject extends IAsncObject {
 
-
-
 	public Location getStart();
 
 	public void setStart(Location start);
@@ -30,5 +28,9 @@ public interface IFeedObject extends IAsncObject {
 	public String getID();
 
 	public void setID(String trip_ID);
+
+	public void setDuration(String string);
+
+	public String getDuration();
 
 }

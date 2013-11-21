@@ -22,6 +22,7 @@ public class Request extends BaseAsyncObject implements ISerialize, IFeedObject 
 	private String type;
 	private String request_ID;
 	private Time time;
+	private String duration;
 
 	public Location getStart() {
 		return start;
@@ -100,5 +101,13 @@ public class Request extends BaseAsyncObject implements ISerialize, IFeedObject 
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 }
